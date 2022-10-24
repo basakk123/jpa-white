@@ -2,6 +2,8 @@ package site.metacoding.white.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import site.metacoding.white.domain.Board;
+import site.metacoding.white.domain.User;
+import site.metacoding.white.dto.BoardReqDto.BoardSaveDto;
 import site.metacoding.white.service.BoardService;
 
 @RequiredArgsConstructor
@@ -19,6 +23,7 @@ import site.metacoding.white.service.BoardService;
 public class BoardApiController {
 
     private final BoardService boardService;
+    private final HttpSession session;
 
     @GetMapping("/board/{id}")
     public Board findById(@PathVariable Long id) {
@@ -36,11 +41,21 @@ public class BoardApiController {
         return "ok";
     }
 
-    @PostMapping("/board")
-    public String save(@RequestBody Board board) {
-        boardService.save(board);
+    @PostMapping("/v2/board")
+    public String saveV2(@RequestBody BoardSaveDto boardsSaveDto) {
+        User principal = (User) session.getAttribute("principal");
+        // insert into board(title, content, user_id) values(?, ?, ?)
+        boardsSaveDto.newInstance();
+        boardsSaveDto.getServiceDto().setUser(principal);
+        boardService.save(boardsSaveDto);
         return "ok";
     }
+
+    // @PostMapping("/board")
+    // public String save(@RequestBody Board board) {
+    // boardService.save(board);
+    // return "ok";
+    // }
 
     @DeleteMapping("/board/{id}")
     public String deleteById(@PathVariable Long id) {

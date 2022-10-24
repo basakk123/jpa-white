@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.white.domain.User;
 import site.metacoding.white.domain.UserRepository;
+import site.metacoding.white.dto.UserReqDto.JoinDto;
 
 // 트랜잭션 관리
 // Dto 변환해서 컨트롤러에게 돌려줘야 함
@@ -17,7 +18,10 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional // 트랜잭션을 붙이지 않으면 영속화되어 있는 객체가 flush가 안됨
-    public void save(User user) {
+    public void save(JoinDto joinDto) {
+        User user = new User();
+        user.setUsername(joinDto.getUsername());
+        user.setPassword(joinDto.getPassword());
         userRepository.save(user);
         // 트랜잭션 종료
     }

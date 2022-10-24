@@ -11,20 +11,7 @@ public class BoardReqDto {
     public static class BoardSaveDto {
         private String title;
         private String content;
-
-        // 클라이언트한테 받는게 아님
-        @Setter
-        @Getter
-        public class ServiceDto {
-            private User user;
-        }
-
-        private ServiceDto serviceDto;
-
-        public void newInstance() {
-            serviceDto = new ServiceDto();
-        }
-
+        private User user; // 서비스 로직
     }
 
     // DTO는 여기다가 추가로

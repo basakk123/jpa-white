@@ -11,7 +11,7 @@ public class BoardReqDto {
     public static class BoardSaveReqDto {
         private String title;
         private String content;
-        private User user; // 서비스 로직
+        private SessionUser sessionUser;; // 서비스 로직
     }
 
     // DTO는 여기다가 추가로

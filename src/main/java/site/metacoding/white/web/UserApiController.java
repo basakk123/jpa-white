@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import site.metacoding.white.domain.User;
+import site.metacoding.white.dto.ResponseDto;
 import site.metacoding.white.dto.UserReqDto.JoinReqDto;
 import site.metacoding.white.dto.UserReqDto.LoginReqDto;
+import site.metacoding.white.dto.UserRespDto.JoinRespDto;
 import site.metacoding.white.service.UserService;
 
 @RequiredArgsConstructor
@@ -24,8 +26,8 @@ public class UserApiController {
     // joinDto
     @PostMapping("/join")
     public ResponseEntity<?> save(@RequestBody JoinReqDto joinReqDto) {
-        User userPS = userService.save(joinReqDto);
-        return new ResponseEntity<>(userPS, HttpStatus.CREATED);
+        JoinRespDto joinRespDto = userService.save(joinReqDto);
+        return new ResponseEntity<>(new ResponseDto<>(1, "ok", joinRespDto), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")

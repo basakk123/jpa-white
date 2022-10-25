@@ -2,13 +2,16 @@ package site.metacoding.white.web;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import site.metacoding.white.domain.User;
-import site.metacoding.white.dto.UserReqDto.JoinDto;
+import site.metacoding.white.dto.UserReqDto.JoinReqDto;
+import site.metacoding.white.dto.UserReqDto.LoginReqDto;
 import site.metacoding.white.service.UserService;
 
 @RequiredArgsConstructor
@@ -20,14 +23,14 @@ public class UserApiController {
 
     // joinDto
     @PostMapping("/join")
-    public String save(@RequestBody JoinDto joinDto) {
-        userService.save(joinDto);
-        return "ok";
+    public ResponseEntity<?> save(@RequestBody JoinReqDto joinReqDto) {
+        User userPS = userService.save(joinReqDto);
+        return new ResponseEntity<>(userPS, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody User user) {
-        User principal = userService.login(user);
+    public String login(@RequestBody LoginReqDto loginReqDto) {
+        User principal = userService.login(loginReqDto);
         session.setAttribute("principal", principal);
         return "ok";
     }

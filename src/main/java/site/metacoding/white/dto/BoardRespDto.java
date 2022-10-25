@@ -1,13 +1,12 @@
 package site.metacoding.white.dto;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import site.metacoding.white.domain.Board;
+import site.metacoding.white.domain.User;
 
 public class BoardRespDto {
 
-    @NoArgsConstructor
     @Setter
     @Getter
     public static class BoardSaveRespDto {
@@ -21,16 +20,19 @@ public class BoardRespDto {
         public static class UserDto {
             private Long id;
             private String username;
-        }
 
-        // 뭔가 메서드 만들어서 코드 리팩토링 하기
+            public UserDto(User user) {
+                this.id = user.getId();
+                this.username = user.getUsername();
+            }
+        }
 
         public BoardSaveRespDto(Board board) {
-            this.id = id;
-            this.title = title;
-            this.content = content;
-            this.user = user;
+            this.id = board.getId();
+            this.title = board.getTitle();
+            this.content = board.getContent();
+            this.user = new UserDto(board.getUser());
         }
-
     }
+
 }

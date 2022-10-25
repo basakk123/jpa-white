@@ -26,22 +26,12 @@ public class BoardService {
 
     @Transactional
     public BoardSaveRespDto save(BoardSaveReqDto boardSaveReqDto) {
-        User userPS = userRepository.findById(boardSaveReqDto.getSessionUser().getId());
-        Board board = new Board();
-        board.setTitle(boardSaveReqDto.getTitle());
-        board.setContent(boardSaveReqDto.getContent());
-        board.setUser(userPS);
-        Board boardPS = boardRepository.save(board);
+        // 핵심 로직
+        Board boardPS = boardRepository.save(boardSaveReqDto.toEntity());
 
+        // DTO 전환
         BoardSaveRespDto boardSaveRespDto = new BoardSaveRespDto(boardPS);
-        boardSaveRespDto.setId(boardPS.getId());
-        boardSaveRespDto.setTitle(boardPS.getTitle());
-        boardSaveRespDto.setContent(boardPS.getContent());
-        User user = boardPS.getUser();
-        UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setUsername(user.getUsername());
-        boardSaveRespDto.setUser(userDto);
+
         return boardSaveRespDto;
     }
 
@@ -57,9 +47,7 @@ public class BoardService {
     @Transactional
     public void update(Long id, Board board) {
         Board boardPS = boardRepository.findById(id);
-        boardPS.setTitle(board.getTitle());
-        boardPS.setContent(board.getContent());
-
+        boardPS.update(board.getTitle(), board.getContent());
     } // 트랜잭션 종료시 => 더티체킹을 함
 
     public List<Board> findAll() {

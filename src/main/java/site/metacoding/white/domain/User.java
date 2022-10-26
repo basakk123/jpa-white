@@ -28,4 +28,8 @@ public class User {
         this.password = password;
     }
 
+    public void update(String password) {
+        this.password = password;
+    }
+
 }

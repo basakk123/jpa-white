@@ -54,13 +54,15 @@ public class BoardService {
     public BoardUpdateRespDto update(BoardUpdateReqDto boardUpdateReqDto) {
         Long id = boardUpdateReqDto.getId();
         Optional<Board> boardOP = boardRepository.findById(id);
-        if (boardOP.isEmpty()) {
-            throw new RuntimeException("해당 " + id + "로 수정을 할 수 없습니다");
+        if (boardOP.isPresent()) {
+            Board boardPS = boardOP.get();
+            boardPS.update(boardUpdateReqDto.getTitle(), boardUpdateReqDto.getContent());
+            return new BoardUpdateRespDto(boardPS);
+        } else {
+            throw new RuntimeException("해당 " + id + "로 수정을 할 수 없습니다.");
         }
-        Board boardPS = boardOP.get();
-        boardPS.update(boardUpdateReqDto.getTitle(), boardUpdateReqDto.getContent());
-        return new BoardUpdateRespDto(boardPS);
-    } // 트랜잭션 종료시 => 더티체킹을 함
+
+    } // 트랜잭션 종료시 -> 더티체킹을 함
 
     @Transactional(readOnly = true)
     public List<BoardAllRespDto> findAll() {

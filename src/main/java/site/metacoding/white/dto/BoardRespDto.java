@@ -103,7 +103,6 @@ public class BoardRespDto {
         @Getter
         public static class UserDto {
             private Long id;
-            private String username;
 
             public UserDto(User user) {
                 this.id = user.getId();

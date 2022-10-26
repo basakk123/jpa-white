@@ -2,6 +2,7 @@ package site.metacoding.white.web;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,6 +16,7 @@ import site.metacoding.white.dto.UserReqDto.JoinReqDto;
 import site.metacoding.white.dto.UserReqDto.LoginReqDto;
 import site.metacoding.white.dto.UserReqDto.UpdatePasswordReqDto;
 import site.metacoding.white.dto.UserRespDto.JoinRespDto;
+import site.metacoding.white.service.BoardService;
 import site.metacoding.white.service.UserService;
 
 @RequiredArgsConstructor
@@ -46,6 +48,11 @@ public class UserApiController {
             @RequestBody UpdatePasswordReqDto updatePasswordReqDto) {
         updatePasswordReqDto.setId(id);
         return new ResponseDto<>(1, "성공", userService.updatePassword(updatePasswordReqDto));
+    }
+
+    @GetMapping("/info/{id}")
+    public ResponseDto<?> findById(@PathVariable Long id) {
+        return new ResponseDto<>(1, "성공", userService.findById(id));
     }
 
 }

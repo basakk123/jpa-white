@@ -30,4 +30,16 @@ public class UserRespDto {
             this.username = user.getUsername();
         }
     }
+
+    @Setter
+    @Getter
+    public static class InfoRespDto {
+        private Long id;
+        private String username;
+
+        public InfoRespDto(User user) {
+            this.id = user.getId();
+            this.username = user.getUsername();
+        }
+    }
 }

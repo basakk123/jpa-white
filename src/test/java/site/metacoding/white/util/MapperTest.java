@@ -4,10 +4,12 @@ import org.junit.jupiter.api.Test;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 // 스프링에서 DB -> rs -> Entity (전략 : 디폴트 생성자를 호출한 뒤 setter)
 
+@NoArgsConstructor
 @Setter
 @Getter
 class Product {
@@ -28,6 +30,7 @@ class Product {
 
 }
 
+@NoArgsConstructor
 @Getter
 @Setter
 class ProductDto {

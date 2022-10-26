@@ -26,7 +26,7 @@ public class UserReqDto {
 
     @Setter
     @Getter
-    public static class UpdateReqDto {
+    public static class UpdatePasswordReqDto {
         private String password;
         private Long id; // 서비스 로직
 

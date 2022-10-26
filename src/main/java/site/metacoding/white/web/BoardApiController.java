@@ -27,18 +27,18 @@ public class BoardApiController {
     private final BoardService boardService;
     private final HttpSession session;
 
-    @GetMapping("/v2/board/{id}")
-    public String findByIdV2(@PathVariable Long id) {
-        System.out.println("현재 open-in-view는 true 인가 false 인가 생각해보기!!");
-        Board boardPS = boardService.findById(id);
-        System.out.println("board.id : " + boardPS.getId());
-        System.out.println("board.title : " + boardPS.getTitle());
-        System.out.println("board.content : " + boardPS.getContent());
-        System.out.println("open-in-view가 false이면 Lazy 로딩 못함");
+    // @GetMapping("/v2/board/{id}")
+    // public String findByIdV2(@PathVariable Long id) {
+    // System.out.println("현재 open-in-view는 true 인가 false 인가 생각해보기!!");
+    // Board boardPS = boardService.findById(id);
+    // System.out.println("board.id : " + boardPS.getId());
+    // System.out.println("board.title : " + boardPS.getTitle());
+    // System.out.println("board.content : " + boardPS.getContent());
+    // System.out.println("open-in-view가 false이면 Lazy 로딩 못함");
 
-        // 날라감)
-        return "ok";
-    }
+    // // 날라감)
+    // return "ok";
+    // }
 
     @PostMapping("/board")
     public ResponseDto<?> save(@RequestBody BoardSaveReqDto boardSaveReqDto) {
@@ -49,8 +49,8 @@ public class BoardApiController {
     }
 
     @GetMapping("/board/{id}")
-    public Board findById(@PathVariable Long id) {
-        return boardService.findById(id);
+    public ResponseDto<?> findById(@PathVariable Long id) {
+        return new ResponseDto<>(1, "성공", boardService.findById(id));
     }
 
     @GetMapping("/board")

@@ -1,5 +1,6 @@
 package site.metacoding.white.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import site.metacoding.white.domain.Board;
 import site.metacoding.white.domain.BoardRepository;
 import site.metacoding.white.domain.UserRepository;
 import site.metacoding.white.dto.BoardReqDto.BoardSaveReqDto;
+import site.metacoding.white.dto.BoardRespDto.BoardAllRespDto;
 import site.metacoding.white.dto.BoardRespDto.BoardDetailRespDto;
 import site.metacoding.white.dto.BoardRespDto.BoardSaveRespDto;
 
@@ -55,13 +57,16 @@ public class BoardService {
         boardOP.get().update(board.getTitle(), board.getContent());
     } // 트랜잭션 종료시 => 더티체킹을 함
 
-    public List<Board> findAll() {
+    @Transactional(readOnly = true)
+    public List<BoardAllRespDto> findAll() {
         List<Board> boardList = boardRepository.findAll();
-        // 1. List의 크기만큼 for문 돌리기
 
-        // 2. Board -> dto로 옮겨야함
-        // 3. Dto 를 List에 담기
-        return null;
+        List<BoardAllRespDto> boardAllRespDtoList = new ArrayList<>();
+        for (Board board : boardList) {
+            boardAllRespDtoList.add(new BoardAllRespDto(board));
+        }
+
+        return boardAllRespDtoList;
     }
 
     @Transactional

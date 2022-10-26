@@ -21,11 +21,11 @@ public class UserRespDto {
 
     @Setter
     @Getter
-    public static class UpdateRespDto {
+    public static class UpdatePasswordRespDto {
         private Long id;
         private String username;
 
-        public UpdateRespDto(User user) {
+        public UpdatePasswordRespDto(User user) {
             this.id = user.getId();
             this.username = user.getUsername();
         }

@@ -14,7 +14,7 @@ import site.metacoding.white.dto.UserReqDto.LoginReqDto;
 import site.metacoding.white.dto.UserReqDto.UpdatePasswordReqDto;
 import site.metacoding.white.dto.UserRespDto.InfoRespDto;
 import site.metacoding.white.dto.UserRespDto.JoinRespDto;
-import site.metacoding.white.dto.UserRespDto.UpdateRespDto;
+import site.metacoding.white.dto.UserRespDto.UpdatePasswordRespDto;
 
 // 트랜잭션 관리
 // Dto 변환해서 컨트롤러에게 돌려줘야 함
@@ -43,7 +43,7 @@ public class UserService {
         }
     }
 
-    public UpdateRespDto updatePassword(UpdatePasswordReqDto updatePasswordReqDto) {
+    public UpdatePasswordRespDto updatePassword(UpdatePasswordReqDto updatePasswordReqDto) {
         Long id = updatePasswordReqDto.getId();
         Optional<User> userOP = userRepository.findById(id);
         if (userOP.isPresent()) {
@@ -52,7 +52,9 @@ public class UserService {
             System.out.println("==========================");
             System.out.println(updatePasswordReqDto.getPassword());
             System.out.println(userPS.getPassword());
-            return new UpdateRespDto(userPS);
+            System.out.println(userPS.getId());
+            System.out.println(userPS.getUsername());
+            return new UpdatePasswordRespDto(userPS);
         } else {
             throw new RuntimeException("해당 " + id + "로 수정을 할 수 없습니다.");
         }

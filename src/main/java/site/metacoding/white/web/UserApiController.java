@@ -16,7 +16,6 @@ import site.metacoding.white.dto.UserReqDto.JoinReqDto;
 import site.metacoding.white.dto.UserReqDto.LoginReqDto;
 import site.metacoding.white.dto.UserReqDto.UpdatePasswordReqDto;
 import site.metacoding.white.dto.UserRespDto.JoinRespDto;
-import site.metacoding.white.service.BoardService;
 import site.metacoding.white.service.UserService;
 
 @RequiredArgsConstructor

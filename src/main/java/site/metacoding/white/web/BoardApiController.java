@@ -1,7 +1,5 @@
 package site.metacoding.white.web;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import site.metacoding.white.domain.Board;
 import site.metacoding.white.dto.BoardReqDto.BoardSaveReqDto;
 import site.metacoding.white.dto.BoardReqDto.BoardUpdateReqDto;
 import site.metacoding.white.dto.BoardRespDto.BoardSaveRespDto;
@@ -49,6 +46,7 @@ public class BoardApiController {
         return new ResponseDto<>(1, "성공", boardSaveRespDto);
     }
 
+    // 게시글 상세보기 (Board + User +List<Comment>)
     @GetMapping("/board/{id}")
     public ResponseDto<?> findById(@PathVariable Long id) {
         return new ResponseDto<>(1, "성공", boardService.findById(id));

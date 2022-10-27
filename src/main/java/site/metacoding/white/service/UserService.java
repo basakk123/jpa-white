@@ -43,17 +43,13 @@ public class UserService {
         }
     }
 
+    @Transactional
     public UpdatePasswordRespDto updatePassword(UpdatePasswordReqDto updatePasswordReqDto) {
         Long id = updatePasswordReqDto.getId();
         Optional<User> userOP = userRepository.findById(id);
         if (userOP.isPresent()) {
             User userPS = userOP.get();
             userPS.update(updatePasswordReqDto.getPassword());
-            System.out.println("==========================");
-            System.out.println(updatePasswordReqDto.getPassword());
-            System.out.println(userPS.getPassword());
-            System.out.println(userPS.getId());
-            System.out.println(userPS.getUsername());
             return new UpdatePasswordRespDto(userPS);
         } else {
             throw new RuntimeException("해당 " + id + "로 수정을 할 수 없습니다.");

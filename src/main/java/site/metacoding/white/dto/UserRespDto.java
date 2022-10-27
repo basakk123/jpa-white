@@ -24,12 +24,10 @@ public class UserRespDto {
     public static class UpdatePasswordRespDto {
         private Long id;
         private String username;
-        private String password;
 
         public UpdatePasswordRespDto(User user) {
             this.id = user.getId();
             this.username = user.getUsername();
-            this.password = user.getPassword();
         }
     }
 

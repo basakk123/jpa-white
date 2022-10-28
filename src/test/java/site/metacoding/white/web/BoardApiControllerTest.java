@@ -59,8 +59,6 @@ public class BoardApiControllerTest {
 
     private MockHttpSession session;
 
-    private static HttpHeaders headers;
-
     @BeforeEach
     public void sessionInit() {
         session = new MockHttpSession();

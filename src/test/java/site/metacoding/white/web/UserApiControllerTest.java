@@ -96,27 +96,14 @@ public class UserApiControllerTest {
 
     @Test
     public void login_test() throws JsonProcessingException {
-        // given
-        JoinReqDto joinReqDto = new JoinReqDto();
-        joinReqDto.setUsername("very");
-        joinReqDto.setPassword("1234");
+        // data init
 
-        String body = om.writeValueAsString(joinReqDto);
-        System.out.println(body);
+        // given
 
         // when
-        HttpEntity<String> request = new HttpEntity<>(body, headers);
-        ResponseEntity<String> response = rt.exchange("/join", HttpMethod.POST,
-                request, String.class);
 
         // then
-        // System.out.println(response.getStatusCode());
-        // System.out.println(response.getBody());
 
-        DocumentContext dc = JsonPath.parse(response.getBody());
-        // System.out.println(dc.jsonString());
-        Integer code = dc.read("$.code");
-        Assertions.assertThat(code).isEqualTo(1);
     }
 
 }

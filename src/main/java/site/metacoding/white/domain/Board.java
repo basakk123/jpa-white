@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.BatchSize;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,8 +34,13 @@ public class Board {
     private User user;
 
     // 조회를 위해서만 필요함
+    @BatchSize(size = 100)
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
+    }
 
     @Builder
     public Board(Long id, String title, String content, User user) {

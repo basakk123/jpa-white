@@ -1,6 +1,5 @@
 package site.metacoding.white.web;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -10,6 +9,10 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -17,9 +20,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import site.metacoding.white.domain.BoardRepository;
 import site.metacoding.white.domain.CommentRepository;
-import site.metacoding.white.domain.User;
 import site.metacoding.white.domain.UserRepository;
-import site.metacoding.white.dto.SessionUser;
+import site.metacoding.white.dto.UserReqDto.JoinReqDto;
 import site.metacoding.white.util.SHA256;
 
 @ActiveProfiles("test")
@@ -51,17 +53,25 @@ public class UserApiControllerTest {
 
     private MockHttpSession session;
 
-    @BeforeEach
-    public void sessionInit() {
-        session = new MockHttpSession();
-        User user = User.builder().id(1L).username("ssar").build();
-        session.setAttribute("sessionUser", new SessionUser(user));
-    }
-
     // @Order(1)
     @Test
     public void join_test() throws JsonProcessingException {
+        // given
+        site.metacoding.white.dto.UserReqDto.JoinReqDto JoinReqDto = new JoinReqDto();
+        JoinReqDto.setUsername("haha");
+        JoinReqDto.setPassword("1234");
 
+        String body = om.writeValueAsString(JoinReqDto);
+
+        // when
+        ResultActions resultActions = mvc
+                .perform(MockMvcRequestBuilders.post("/join").content(body)
+                        .contentType(APPLICATION_JSON).accept(APPLICATION_JSON));
+
+        // then
+        MvcResult mvcResult = resultActions.andReturn();
+        System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
+        resultActions.andExpect(MockMvcResultMatchers.jsonPath("$.code").value(1L));
     }
 
     @Test

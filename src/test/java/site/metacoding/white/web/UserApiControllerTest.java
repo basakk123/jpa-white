@@ -26,7 +26,7 @@ import site.metacoding.white.service.UserService;
 
 @ActiveProfiles("test")
 // @Transactional // 통합테스트에서 RANDOM_PORT를 사용하면 새로운 스레드로 돌기 때문에 rollback 무의미
-@Sql("classpath:truncate.sql")
+@Sql("classpath:truncate.sql") // 기본 정책 (전 - 후)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class UserApiControllerTest {
 
@@ -65,31 +65,7 @@ public class UserApiControllerTest {
         // System.out.println(response.getStatusCode());
         // System.out.println(response.getBody());
 
-        DocumentContext dc = JsonPath.parse(response.getBody());
-        // System.out.println(dc.jsonString());
-        Integer code = dc.read("$.code");
-        Assertions.assertThat(code).isEqualTo(1);
-    }
-
-    // @Order(2)
-    @Test
-    public void join_test2() throws JsonProcessingException {
-        // given
-        JoinReqDto joinReqDto = new JoinReqDto();
-        joinReqDto.setUsername("very");
-        joinReqDto.setPassword("1234");
-
-        String body = om.writeValueAsString(joinReqDto);
-        System.out.println(body);
-
-        // when
-        HttpEntity<String> request = new HttpEntity<>(body, headers);
-        ResponseEntity<String> response = rt.exchange("/join", HttpMethod.POST,
-                request, String.class);
-
-        // then
-        // System.out.println(response.getStatusCode());
-        // System.out.println(response.getBody());
+        System.out.println("디버그 : " + response.getStatusCodeValue());
 
         DocumentContext dc = JsonPath.parse(response.getBody());
         // System.out.println(dc.jsonString());
@@ -103,8 +79,8 @@ public class UserApiControllerTest {
         JoinReqDto joinReqDto = new JoinReqDto();
         joinReqDto.setUsername("very");
         joinReqDto.setPassword("1234");
-
         userService.save(joinReqDto);
+
         // given
         LoginReqDto loginReqDto = new LoginReqDto();
         loginReqDto.setUsername("very");
@@ -116,19 +92,15 @@ public class UserApiControllerTest {
         HttpEntity<String> request = new HttpEntity<>(body, headers);
         ResponseEntity<String> response = rt.exchange("/login", HttpMethod.POST,
                 request, String.class);
-
         System.out.println("디버그 : " + response.getBody());
+
         // then
         DocumentContext dc = JsonPath.parse(response.getBody());
-        // System.out.println(dc.jsonString());
         Integer code = dc.read("$.code");
         String username = dc.read("$.data.username");
-        String msg = dc.read("$.msg");
-        Integer id = dc.read("$.data.id");
         Assertions.assertThat(code).isEqualTo(1);
         Assertions.assertThat(username).isEqualTo("very");
-        Assertions.assertThat(msg).isEqualTo("ok");
-        Assertions.assertThat(id).isEqualTo(1);
+
     }
 
 }

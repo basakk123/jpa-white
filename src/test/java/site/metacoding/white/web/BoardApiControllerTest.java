@@ -1,5 +1,8 @@
 package site.metacoding.white.web;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -179,13 +182,13 @@ public class BoardApiControllerTest {
 
         // when
         ResultActions resultActions = mvc
-                .perform(MockMvcRequestBuilders.delete("/board/" + id)
+                .perform(delete("/board/" + id)
                         .accept(APPLICATION_JSON)
                         .session(session));
 
         // then
         MvcResult mvcResult = resultActions.andReturn();
         System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-        resultActions.andExpect(MockMvcResultMatchers.jsonPath("$.code").value(1L));
+        resultActions.andExpect(jsonPath("$.code").value(1L));
     }
 }
